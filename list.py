@@ -34,6 +34,6 @@ for region in regions:
         stacks += [stack['StackName'] for stack in response['StackSummaries']]
     # adding this to get the stacks that have the string 'pattern' in them, this is a hacky way to get the stacks that we want to delete
     def get_stacksList():
-        return [st for st in stacks if any(sub in st for sub in ['StackSet-AWSControlTower', 'StackSet-Densify', 'patterns'])]
+        return [st for st in stacks if any(sub in st for sub in ['StackSet-AWSControlTower', 'StackSet-Densify', 'StackSet-Infose'])]
     stacks = (get_stacksList())
     print("Region/Stacks " + region, stacks)
