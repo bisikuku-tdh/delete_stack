@@ -35,12 +35,14 @@ for region in regions:
         stacks += [stack['StackName'] for stack in response['StackSummaries']]
     # adding this to get the stacks that have the string 'pattern' in them, this is a hacky way to get the stacks that we want to delete
     def get_stacksList():
-        return [st for st in stacks if any(sub in st for sub in ['StackSet-AWSControlTower', 'StackSet-Densify', 'partern3'])]
+        return [st for st in stacks if any(sub in st for sub in ['StackSet-AWSControlTower', 'StackSet-Densify', 'patterns3'])]
     stacks = (get_stacksList())
     for stack in stacks:
         print(stack)
         client = boto3.client('cloudformation' , region_name=region)
         client.delete_stack(StackName=stack)
+
+    print("All seleted stacks in region " + region + " have been deleted")
 
 
 
