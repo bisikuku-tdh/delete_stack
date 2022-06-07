@@ -1,6 +1,5 @@
 import boto3
-import functools
-import re
+
 
 ###### Info about code ##########
 #List and delete spectific stacks
@@ -25,7 +24,7 @@ regions = get_region_names()
 for region in regions:
     client = boto3.client('cloudformation', region_name=region)
     paginator = client.get_paginator('list_stacks')
-    status_filter = ['CREATE_COMPLETE', 'UPDATE_COMPLETE', 'ROLLBACK_COMPLETE', 'CREATE_IN_PROGRESS', 'UPDATE_IN_PROGRESS', 'ROLLBACK_IN_PROGRESS']
+    status_filter = ['DELETE_FAILED','CREATE_COMPLETE', 'UPDATE_COMPLETE', 'ROLLBACK_COMPLETE', 'CREATE_IN_PROGRESS', 'UPDATE_IN_PROGRESS', 'ROLLBACK_IN_PROGRESS']
 
     response_iterator = paginator.paginate(
     StackStatusFilter=status_filter
@@ -35,7 +34,7 @@ for region in regions:
         stacks += [stack['StackName'] for stack in response['StackSummaries']]
     # adding this to get the stacks that have the string 'pattern' in them, this is a hacky way to get the stacks that we want to delete
     def get_stacksList():
-        return [st for st in stacks if any(sub in st for sub in ['StackSet-AWSControlTower', 'StackSet-Densify', 'StackSet-Infose'])]
+        return [st for st in stacks if any(sub in st for sub in ['StackSet-AWSControlTower', 'StackSet-Infose', 'StackSet-CustomControlTower'])]
     stacks = (get_stacksList())
     for stack in stacks:
         print(stack)
